@@ -1,29 +1,35 @@
 # 지리기반 맛집 추천 웹 서비스
 
 ![image](https://bow-hair-db3.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F571a24a3-05f9-4ea5-b01f-cba1a3ac070d%2F77d8ee9c-7271-46f6-b4ea-02fda08cccf4%2Flogo.png?table=block&id=a9a2ec57-b655-45e4-be7d-a370c4649007&spaceId=571a24a3-05f9-4ea5-b01f-cba1a3ac070d&width=2000&userId=&cache=v2)
+<img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white"/></a>
+<img src="https://img.shields.io/badge/Gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white"/></a>
+<img src="https://img.shields.io/badge/Spring Boot 3.1.5-6DB33F?style=for-the-badge&logo=spring&logoColor=white"/></a>
+<img src="https://img.shields.io/badge/Spring Security-6DB33F?style=for-the-badge&logo=spring-security&logoColor=white"/></a>
+<img src="https://img.shields.io/badge/Spring rest docs-6DB33F?style=for-the-badge"/></a>
+<img src="https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=json-web-tokens&logoColor=white"/></a>
+<img src="https://img.shields.io/badge/Spring Data JPA-gray?style=for-the-badge&logoColor=white"/></a>
+<img src="https://img.shields.io/badge/QueryDSL-0078D4?style=for-the-badge&logo=Spring Data JPA&logoColor=white"/></a>
+<img src="https://img.shields.io/badge/MySQL 8-4479A1?style=for-the-badge&logo=MySQL&logoColor=white"/></a>
+<img src="https://img.shields.io/badge/Junit-25A162?style=for-the-badge&logo=JUnit5&logoColor=white"/></a>
+<img src="https://img.shields.io/badge/Mockito-6DB33F?style=for-the-badge"/></a>
 
 ## 목차
 
 1. [개발 기간](#개발-기간)
-2. [기술 스택](#기술-스택)
-3. [프로젝트 개요](#프로젝트-개요)
-4. [프로젝트 일정관리](#프로젝트-일정관리)
-5. [구현 기능 목록](#구현-기능-목록)
-6. [설계 및 의도](#설계-및-의도)
-7. [ERD](#erd)
-8. [구현 과정](#구현-과정)
-9. [담당한 역할](#담당한-역할)
-10. [API 명세](#api-명세)
-11. [테스트](#테스트)
-12. [TIL 및 회고](#TIL-및-회고)
+2. [프로젝트 개요](#프로젝트-개요)
+3. [프로젝트 일정관리](#프로젝트-일정관리)
+4. [구현 기능 목록](#구현-기능-목록)
+5. [설계 및 의도](#설계-및-의도)
+6. [ERD](#erd)
+7. [구현 과정](#구현-과정)
+8. [담당한 역할](#담당한-역할)
+9. [API 명세](#api-명세)
+10. [테스트](#테스트)
+11. [TIL 및 회고](#TIL-및-회고)
 
 ## 개발 기간
 
-2023-10-31 ~ 2023-11-09
-
-## 기술 스택
-
-<img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white" alt="spring"/> <img src="https://img.shields.io/badge/spring data jpa-6DB33F?style=for-the-badge&logo=spring&logoColor=white" alt="spring data jpa"/> <img src="https://img.shields.io/badge/querydsl-6DB33F?style=for-the-badge&logo=spring&logoColor=white" alt="spring"/> <img src="https://img.shields.io/badge/spring security-6DB33F?style=for-the-badge&logo=springSecurity&logoColor=white" alt="spring security"/> <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="mysql"/>
+2023-10-31 ~ 2023-11-09 (10일)
 
 ## 코드 컨벤션
 
@@ -49,6 +55,10 @@ https://github.com/orgs/wanted-preonboarding-team-m/projects/4/views/1
 
 ## 구현 기능 목록
 
+
+<details>
+    <summary>자세히 (클릭)</summary>
+   
 * 유저
     * 회원가입
     * 로그인
@@ -71,17 +81,89 @@ https://github.com/orgs/wanted-preonboarding-team-m/projects/4/views/1
     * 맛집 상세 정보 조회
     * 맛집 평가
 
+</details>
+
 ## 설계 및 의도
 
-*작성예정*
+<details>
+    <summary>자세히 (클릭)</summary>
+
+## 회원가입
+
+- 비밀번호는 단방향 암호화 알고리즘인 `Bcrypt` 를 사용하여 암호화 합니다.
+- 아이디는 중복이 불가능하도록, 중복 체크를 합니다.
+
+## 로그인
+
+- 아이디 비밀번호 일치를 `AuthenticationProvider` 를 사용하여 검증합니다.
+- `Refresh Token`을 7일 , `Access Token`을 30분으로 설정합니다.
+
+## 로그아웃
+
+- `Header`에 담긴 토큰의 권한(회원은 자신만 로그아웃이 가능)을 검증합니다.
+
+## open api 호출 시 고려
+
+- 데이터 조회 개수 제한 극복
+    
+    경기도 공공데이터 포털에서 한 번에 조회할 수 있는 데이터의 양을 1000개로 제한했습니다. 하지만 전체 데이터의 개수는 1000개보다 많아서 모든 데이터를 조회하는 로직을 구현할 필요가 있었습니다.
+    
+    1부터 시작하는 인덱스 변수를 두고 반복문안에서 인덱스를 1씩 증가시키면서 조회를 계속했습니다. 조회를 하다가 현재 인덱스의 데이터 개수가 1000개보다 적으면 다음 페이지는 존재하지 않는 것이기에 반복문을 탈출하는 조건으로 설정했습니다.
+    
+
+- raw 데이터에 default 값 설정
+    
+    json으로 받아오는 데이터의 속성들은 대부분이 null 값이었습니다. DB에 저장할때 null인 속성의 default 값을 설정하기 위해 raw 데이터를 담는 dto 객체의 속성에 default 값을 명시했습니다.
+    
+    하지만 `RestTemplate.exchange` 메서드는 값이 null이어도 덮어 씌우기때문에 이를 방지하기 위해 `@JsonSetter(nulls = Nulls.*SKIP)*` 어노테이션을 사용했습니다. 이 어노테이션은 값이 null인 속성은 객체의 기본값을 유지하게끔 해줍니다.
+
+## 리뷰 
+
+식당에는 평균 점수가 필요합니다.
+
+식당의 모든 리뷰의 점수 평균 계산을 매번 조회 마다 하는 것은 성능이 매우 안좋다고 판단하였습니다.
+
+따라서 식당의 평균 점수리뷰의 작성,수정,삭제 마다 계산을 하여, 식당의 DB 컬럼에 넣어주기로 하였습니다.
+
+계산을 하면 당연히 조금씩 오차가 생기는데, 정확한 계산을 위한 수학 알고리즘이나 매번 계산할 필요할까? 라는 생각이 들었습니다.
+
+하지만 리뷰는 그렇게 많은 데이터가 쌓이지 않을 뿐더러, 특정 리뷰 수가 넘어가면, 다시한번 계산하는 로직이 더 좋을것이라 판단하였습니다.
+
+## 리뷰 작성
+
+- 점수는 1.0 1.5... 5.0 까지 0.5 단위로 1~5 사이여야만 합니다.
+    - `@Constraint` 를 활용해서 커스텀 valid 어노테이션을 만들어 ReqDto 검증
+- 식당의 평균 점수 계산
+    - 총 평점 (원래 총 평점(원래 평점 * 원래 리뷰의 수) + 새로운 평점) / 총 리뷰 수 (원래 리뷰의 수 + 1)
+
+## 리뷰 수정
+
+- 식당의 평균 점수 계산
+    - 총 평점 (원래 총 평점 (원래 평점 * 원래 리뷰의 수 ) - 이전 평점 + 새로운 평점 ) / 원래의 총 리뷰
+
+## 리뷰 삭제
+
+- 식당의 평균 점수 계산
+    - 총 평점 (원래 총 평점 (원래 평점 * 원래 리퓨의 수) - 삭제된 평점) / 총 리뷰 수 (원래 리뷰의 수 -1)
+
+</details>
 
 ## ERD
 
 **Erd Cloud**
 
+<details>
+    <summary>자세히 (클릭)</summary>
+   
 ![87D62F6B-6E38-4CC9-A76A-7D3489A9654E_1_201_a](https://github.com/wanted-preonboarding-team-m/02_geoRecommendEats/assets/57309311/5080cb4a-1d30-44d8-8a4c-f68453506643)
 
+</details>
+
 ## 구현 과정
+
+
+<details>
+    <summary>자세히 (클릭)</summary>
 
 1. [프로젝트 환경 설정](https://github.com/wanted-preonboarding-team-m/02_geoRecommendEats/issues/1)
     * application.yml 설정
@@ -108,6 +190,8 @@ https://github.com/orgs/wanted-preonboarding-team-m/projects/4/views/1
     * [사용자 위치 기반 맛집 목록 조회](https://github.com/wanted-preonboarding-team-m/02_geoRecommendEats/issues/21)
     * [맛집 상세정보 조회](https://github.com/wanted-preonboarding-team-m/02_geoRecommendEats/issues/25)
     * [맛집 평가](https://github.com/wanted-preonboarding-team-m/02_geoRecommendEats/issues/29)
+  
+</details>
 
 ## 담당한 역할
 
@@ -122,9 +206,14 @@ https://github.com/orgs/wanted-preonboarding-team-m/projects/4/views/1
 
 **Spring Rest Docs 기반 API 명세서**
 
-https://wanted-preonboarding-team-m.github.io/02_geoRecommendEats/src/main/resources/static/index.html
+<details>
+    <summary>자세히 (클릭)</summary>
+
+[API 명세서 보기 (클릭)](https://wanted-preonboarding-team-m.github.io/02_geoRecommendEats/src/main/resources/static/index.html)
 
 ![image](https://github.com/wanted-preonboarding-team-m/02_geoRecommendEats/assets/57309311/d5034d8c-975a-4e2c-af30-059f4c486f56)
+
+</details>
 
 ## 테스트
 
