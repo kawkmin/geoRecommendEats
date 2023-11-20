@@ -88,21 +88,21 @@ https://github.com/orgs/wanted-preonboarding-team-m/projects/4/views/1
 <details>
     <summary>자세히 (클릭)</summary>
 
-## 회원가입
+### 회원가입
 
 - 비밀번호는 단방향 암호화 알고리즘인 `Bcrypt` 를 사용하여 암호화 합니다.
 - 아이디는 중복이 불가능하도록, 중복 체크를 합니다.
 
-## 로그인
+### 로그인
 
 - 아이디 비밀번호 일치를 `AuthenticationProvider` 를 사용하여 검증합니다.
 - `Refresh Token`을 7일 , `Access Token`을 30분으로 설정합니다.
 
-## 로그아웃
+### 로그아웃
 
 - `Header`에 담긴 토큰의 권한(회원은 자신만 로그아웃이 가능)을 검증합니다.
 
-## open api 호출 시 고려
+### open api 호출 시 고려
 
 - 데이터 조회 개수 제한 극복
     
@@ -117,7 +117,7 @@ https://github.com/orgs/wanted-preonboarding-team-m/projects/4/views/1
     
     하지만 `RestTemplate.exchange` 메서드는 값이 null이어도 덮어 씌우기때문에 이를 방지하기 위해 `@JsonSetter(nulls = Nulls.*SKIP)*` 어노테이션을 사용했습니다. 이 어노테이션은 값이 null인 속성은 객체의 기본값을 유지하게끔 해줍니다.
 
-## 리뷰 
+### 리뷰 
 
 식당에는 평균 점수가 필요합니다.
 
@@ -129,19 +129,19 @@ https://github.com/orgs/wanted-preonboarding-team-m/projects/4/views/1
 
 하지만 리뷰는 그렇게 많은 데이터가 쌓이지 않을 뿐더러, 특정 리뷰 수가 넘어가면, 다시한번 계산하는 로직이 더 좋을것이라 판단하였습니다.
 
-## 리뷰 작성
+### 리뷰 작성
 
 - 점수는 1.0 1.5... 5.0 까지 0.5 단위로 1~5 사이여야만 합니다.
     - `@Constraint` 를 활용해서 커스텀 valid 어노테이션을 만들어 ReqDto 검증
 - 식당의 평균 점수 계산
     - 총 평점 (원래 총 평점(원래 평점 * 원래 리뷰의 수) + 새로운 평점) / 총 리뷰 수 (원래 리뷰의 수 + 1)
 
-## 리뷰 수정
+### 리뷰 수정
 
 - 식당의 평균 점수 계산
     - 총 평점 (원래 총 평점 (원래 평점 * 원래 리뷰의 수 ) - 이전 평점 + 새로운 평점 ) / 원래의 총 리뷰
 
-## 리뷰 삭제
+### 리뷰 삭제
 
 - 식당의 평균 점수 계산
     - 총 평점 (원래 총 평점 (원래 평점 * 원래 리퓨의 수) - 삭제된 평점) / 총 리뷰 수 (원래 리뷰의 수 -1)
